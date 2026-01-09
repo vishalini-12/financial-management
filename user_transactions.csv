@@ -1,0 +1,8 @@
+date,type,client_name,description,category,status,amount
+########,CREDIT,admin,Client cred,Miscellane,COMPLETE,12000
+########,CREDIT,admin,Client debi,Miscellane,COMPLETE,120
+########,DEBIT,admin,Client debi,Miscellane,COMPLETE,300
+########,CREDIT,admin,Credit entr,Miscellane,COMPLETE,7800
+########,DEBIT,admin,Salary pay,Salary,COMPLETE,788
+########,CREDIT,sandhiya,Monthly sa,Salary,COMPLETE,35000
+########,CREDIT,vish,Monthly sa,Salary,COMPLETE,25000

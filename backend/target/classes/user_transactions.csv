@@ -1,0 +1,9 @@
+date,type,client_name,bank_name,description,category,status,amount
+########,CREDIT,admin,SBI,Client cred,Miscellane,COMPLETE,12000
+########,CREDIT,admin,HDFC,Client debi,Miscellane,COMPLETE,120
+########,DEBIT,admin,ICICI,Client debi,Miscellane,COMPLETE,300
+########,CREDIT,admin,SBI,Credit entr,Miscellane,COMPLETE,7800
+########,DEBIT,admin,Indian Bank,Salary pay,Salary,COMPLETE,788
+########,CREDIT,sandhiya,SBI,Monthly sa,Salary,COMPLETE,35000
+########,DEBIT,sandhiya,SBI,Service fee,Service,COMPLETE,3000
+########,CREDIT,vish,ICICI,Monthly sa,Salary,COMPLETE,25000

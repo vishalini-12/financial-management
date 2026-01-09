@@ -1,0 +1,5 @@
+date,type,client_name,description,category,status,amount
+2024-01-15,CREDIT,ABC Corp,Payment received,Client Payment,COMPLETED,1500.50
+2024-01-16,DEBIT,XYZ Ltd,Office supplies,Office Expense,COMPLETED,250.75
+2024-01-17,CREDIT,ABC Corp,Consulting fee,Client Payment,PENDING,2000.00
+2024-01-18,DEBIT,Office,Internet bill,Utilities,COMPLETED,89.99
