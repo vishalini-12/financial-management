@@ -1,32 +1,19 @@
-# Use Node.js 16 as the base image
-FROM node:16-alpine
+# ================= BUILD STAGE =================
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Install dependencies
-RUN npm install
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Copy the source code
-COPY . .
+# ================= RUNTIME STAGE =================
+FROM eclipse-temurin:17-jre
 
-# Build the application
-RUN npm run build
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 
-# Use nginx to serve the built application
-FROM nginx:alpine
-
-# Copy the built application from the previous stage
-COPY --from=0 /app/build /usr/share/nginx/html
-
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
