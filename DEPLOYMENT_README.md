@@ -93,11 +93,75 @@ FRONTEND_URL=https://your-vercel-app.vercel.app
 
 Trigger a new deployment in Railway to apply the CORS changes.
 
+## Alternative: Docker Deployment
+
+For local development or containerized deployment, you can use Docker:
+
+### Prerequisites for Docker Deployment
+- Docker installed
+- Docker Compose installed
+
+### Quick Start with Docker Compose
+
+1. **Clone and navigate to the project:**
+   ```bash
+   git clone https://github.com/Vishaliniadba/financial-ledger-project.git
+   cd financial-ledger-project
+   ```
+
+2. **Start all services:**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Access the application:**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8080
+   - Database: localhost:3306
+
+4. **View logs:**
+   ```bash
+   docker-compose logs -f
+   ```
+
+5. **Stop services:**
+   ```bash
+   docker-compose down
+   ```
+
+### Manual Docker Build
+
+**Backend:**
+```bash
+cd backend
+docker build -t financial-ledger-backend .
+docker run -p 8080:8080 -e SPRING_DATASOURCE_URL=jdbc:mysql://your-db-host financial-ledger-backend
+```
+
+**Frontend:**
+```bash
+cd frontend
+docker build -t financial-ledger-frontend .
+docker run -p 3000:80 -e REACT_APP_API_URL=http://your-backend-url financial-ledger-frontend
+```
+
 ## Step 5: Test Your Deployment
 
-1. Visit your Vercel frontend URL
+1. Visit your Vercel frontend URL (or http://localhost:3000 for Docker)
 2. Try logging in with default credentials (if any exist)
 3. Test all features to ensure they work with the deployed backend
+
+## Environment Files
+
+Copy the example environment files and configure them:
+
+```bash
+# Backend
+cp backend/.env.example backend/.env
+
+# Frontend
+cp frontend/.env.example frontend/.env
+```
 
 ## Troubleshooting
 
