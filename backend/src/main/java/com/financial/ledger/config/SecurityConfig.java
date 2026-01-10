@@ -1,46 +1,36 @@
 package com.financial.ledger.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
-// @EnableMethodSecurity // DISABLE METHOD-LEVEL SECURITY
 public class SecurityConfig {
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    @Value("${cors.allowed-origins:http://localhost:3000,http://localhost:3001}")
+    @Value("${cors.allowed-origins}")
     private String allowedOrigins;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // TEMPORARILY DISABLE ALL SPRING SECURITY FOR TESTING
+
         http
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .authorizeHttpRequests(authorize -> authorize
-                .anyRequest().permitAll()  // ALLOW EVERYTHING
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()   // TEMP: allow everything
             );
 
         return http.build();
@@ -48,25 +38,22 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+        CorsConfiguration config = new CorsConfiguration();
 
-        // Parse allowed origins from environment variable
-        if (allowedOrigins != null && !allowedOrigins.isEmpty()) {
-            String[] origins = allowedOrigins.split(",");
-            for (String origin : origins) {
-                configuration.addAllowedOrigin(origin.trim());
-            }
-        } else {
-            // Default fallback
-            configuration.addAllowedOrigin("http://localhost:3000");
-            configuration.addAllowedOrigin("http://localhost:3001");
-        }
+        config.setAllowedOrigins(
+                Arrays.asList(allowedOrigins.split(","))
+        );
 
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        config.setAllowedMethods(Arrays.asList(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
         return source;
     }
 }
