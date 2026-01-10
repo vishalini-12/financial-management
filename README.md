@@ -61,7 +61,20 @@ financial-ledger/
 
 ### Manual Setup
 
-**Backend:**
+**Backend Build:**
+```bash
+# Option 1: Use the build script (Windows)
+scripts/build.bat
+
+# Option 2: Manual Maven build
+cd backend
+mvn clean package -DskipTests
+
+# Option 3: Run directly (if JAR exists)
+java -jar backend/target/ledger-1.0.0.jar
+```
+
+**Backend Development:**
 ```bash
 cd backend
 ./mvnw spring-boot:run
@@ -73,6 +86,14 @@ cd frontend
 npm install
 npm start
 ```
+
+### Build Scripts
+
+The project includes automated scripts for easy building and deployment:
+
+- **`scripts/build.bat`** - Build backend locally with Maven
+- **`scripts/deploy.bat`** - Prepare for Railway/Vercel deployment
+- **`scripts/deploy.sh`** - Linux/Mac deployment script
 
 ## Deployment
 

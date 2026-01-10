@@ -29,6 +29,15 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
+REM Check for Maven (optional for Railway deployment)
+where mvn >nul 2>nul
+if %errorlevel% neq 0 (
+    echo [WARNING] Maven not found. Local builds will use Docker/Railway.
+    echo [INFO] For local Maven builds, run: cd backend ^&^& mvn clean package -DskipTests
+) else (
+    echo [INFO] Maven found - local builds available.
+)
+
 echo [INFO] All dependencies are installed.
 
 REM Check if we're in the project root
