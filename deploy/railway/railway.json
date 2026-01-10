@@ -3,6 +3,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "java -jar target/*.jar"
+    "startCommand": "java -Dserver.port=$PORT $JAVA_OPTS -jar target/*.jar"
   }
 }
