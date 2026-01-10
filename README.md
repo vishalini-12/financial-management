@@ -95,6 +95,84 @@ The project includes automated scripts for easy building and deployment:
 - **`scripts/deploy.bat`** - Prepare for Railway/Vercel deployment
 - **`scripts/deploy.sh`** - Linux/Mac deployment script
 
+## Docker Setup
+
+### Prerequisites
+- Docker and Docker Compose installed
+- At least 4GB RAM available
+- Ports 3000, 8080, and 3306 available
+
+### Quick Start with Docker
+```bash
+# Clone the repository
+git clone https://github.com/vishalini-12/financial-management.git
+cd financial-management
+
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+```
+
+### Individual Services
+```bash
+# Build and run backend only
+cd backend
+docker build -t financial-ledger-backend .
+docker run -p 8080:8080 --env-file .env financial-ledger-backend
+
+# Build and run frontend only
+cd frontend
+docker build -t financial-ledger-frontend .
+docker run -p 3000:80 --env REACT_APP_API_URL=http://localhost:8080 financial-ledger-frontend
+
+# Run MySQL database only
+docker run -d --name mysql-financial -e MYSQL_ROOT_PASSWORD=Vish@1213 -e MYSQL_DATABASE=fin_management -p 3306:3306 mysql:8.0
+```
+
+### Docker Commands
+```bash
+# View running containers
+docker ps
+
+# View all containers
+docker ps -a
+
+# Stop specific container
+docker stop <container_name>
+
+# Remove containers
+docker-compose down --volumes
+
+# Rebuild after code changes
+docker-compose up --build
+```
+
+### Environment Configuration
+The Docker setup includes:
+- **MySQL 8.0** database with persistent storage
+- **Spring Boot** backend with health checks
+- **React** frontend served by nginx
+- **Automatic service discovery** between containers
+
+### Troubleshooting
+```bash
+# Clear all Docker data (use with caution)
+docker system prune -a --volumes
+
+# View container logs
+docker-compose logs backend
+docker-compose logs frontend
+docker-compose logs mysql
+
+# Access MySQL container
+docker exec -it financial-ledger-mysql mysql -u root -p
+```
+
 ## Deployment
 
 ### Automated Deployment
