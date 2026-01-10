@@ -1,0 +1,36 @@
+# Compiled classes
+target/
+*.class
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Environment files
+.env
+
+# Logs
+*.log
+logs/
+
+# Documentation
+README.md
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Maven wrapper (if present)
+.mvn/
+mvnw
+mvnw.cmd
