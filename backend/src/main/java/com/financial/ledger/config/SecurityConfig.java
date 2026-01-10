@@ -1,15 +1,20 @@
 package com.financial.ledger.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
+
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -24,10 +29,15 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/auth/**",
                     "/manifest.json",
-                    "/favicon.ico"
+                    "/favicon.ico",
+                    "/h2-console/**"  // Allow H2 console access
                 ).permitAll()
                 .anyRequest().authenticated()
-            );
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // Allow H2 console to work with Spring Security
+        http.headers(headers -> headers.frameOptions().disable());
 
         return http.build();
     }

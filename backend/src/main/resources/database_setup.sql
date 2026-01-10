@@ -1,10 +1,10 @@
 -- Database Setup Script for Financial Ledger Project
--- Database Name: final_project_finance
+-- Database Name: finance_management
 -- MySQL Database Creation and Table Setup
 
 -- Create database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS final_project_finance;
-USE final_project_finance;
+CREATE DATABASE IF NOT EXISTS finance_management;
+USE finance_management;
 
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (

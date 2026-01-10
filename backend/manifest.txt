@@ -1,2 +1,0 @@
-Main-Class: com.financial.ledger.LedgerApplication
-

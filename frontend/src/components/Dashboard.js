@@ -46,27 +46,21 @@ const Dashboard = ({ user }) => {
       console.log('Fetching dashboard summary...');
       let newSummary = null;
 
-      try {
-        const summaryResponse = await axios.get(`${API_ENDPOINTS.TRANSACTIONS}/dashboard/summary`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        console.log('Dashboard summary response:', summaryResponse.data);
+      // The global axios interceptor will handle 403 errors silently
+      const summaryResponse = await axios.get(`${API_ENDPOINTS.TRANSACTIONS}/dashboard/summary`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      console.log('Dashboard summary response:', summaryResponse.data);
 
-        const summaryData = summaryResponse.data || {};
-        newSummary = {
-          totalCredit: parseFloat(summaryData.totalCredit) || 0,
-          totalDebit: parseFloat(summaryData.totalDebit) || 0,
-          balance: parseFloat(summaryData.balance) || 0,
-          pendingAmount: parseFloat(summaryData.pendingAmount) || 0,
-          pendingCount: parseInt(summaryData.pendingCount) || 0
-        };
-        console.log('Setting summary data:', newSummary);
-      } catch (summaryError) {
-        console.error('Dashboard summary API call failed:', summaryError);
-        console.error('Error details:', summaryError.response?.data || summaryError.message);
-        // Continue with null summary - dashboard will show 0 values
-        newSummary = null;
-      }
+      const summaryData = summaryResponse.data || {};
+      newSummary = {
+        totalCredit: parseFloat(summaryData.totalCredit) || 0,
+        totalDebit: parseFloat(summaryData.totalDebit) || 0,
+        balance: parseFloat(summaryData.balance) || 0,
+        pendingAmount: parseFloat(summaryData.pendingAmount) || 0,
+        pendingCount: parseInt(summaryData.pendingCount) || 0
+      };
+      console.log('Setting summary data:', newSummary);
 
       setSummary(newSummary);
 
@@ -94,7 +88,10 @@ const Dashboard = ({ user }) => {
       processChartData(allTransactions);
 
     } catch (err) {
+      // Global axios interceptor handles 403 errors, so this catch block
+      // will only handle other types of errors (network errors, etc.)
       console.error('Dashboard data fetch error:', err);
+      // Continue with null data - dashboard will show appropriate fallbacks
     } finally {
       setLoading(false);
       setChartsLoaded(true);
@@ -102,6 +99,18 @@ const Dashboard = ({ user }) => {
   };
 
   useEffect(() => {
+    // Check authentication before attempting to fetch data
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    const role = localStorage.getItem('role');
+
+    if (!token || !username || !role) {
+      console.log('No authentication data found, redirecting to login');
+      navigate('/login');
+      return;
+    }
+
+    // Only fetch data if authenticated
     fetchDashboardData();
   }, []);
 

@@ -1,9 +1,9 @@
 date,type,client_name,bank_name,description,category,status,amount
-########,CREDIT,admin,SBI,Client cred,Miscellane,COMPLETE,12000
-########,CREDIT,admin,HDFC,Client debi,Miscellane,COMPLETE,120
-########,DEBIT,admin,ICICI,Client debi,Miscellane,COMPLETE,300
-########,CREDIT,admin,SBI,Credit entr,Miscellane,COMPLETE,7800
-########,DEBIT,admin,Indian Bank,Salary pay,Salary,COMPLETE,788
-########,CREDIT,sandhiya,SBI,Monthly sa,Salary,COMPLETE,35000
-########,DEBIT,sandhiya,SBI,Service fee,Service,COMPLETE,3000
-########,CREDIT,vish,ICICI,Monthly sa,Salary,COMPLETE,25000
+2024-01-15,CREDIT,admin,SBI,Client credit,Miscellaneous,COMPLETED,12000
+2024-01-16,CREDIT,admin,HDFC,Client debit,Miscellaneous,COMPLETED,120
+2024-01-17,DEBIT,admin,ICICI,Client debit,Miscellaneous,COMPLETED,300
+2024-01-18,CREDIT,admin,SBI,Credit entry,Miscellaneous,COMPLETED,7800
+2024-01-19,DEBIT,admin,Indian Bank,Salary payment,Salary,COMPLETED,788
+2024-01-20,CREDIT,sandhiya,SBI,Monthly salary,Salary,COMPLETED,35000
+2024-01-21,DEBIT,sandhiya,SBI,Service fee,Service,COMPLETED,3000
+2024-01-22,CREDIT,vish,ICICI,Monthly salary,Salary,COMPLETED,25000

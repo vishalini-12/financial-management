@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @SpringBootApplication
-public class LedgerApplication implements CommandLineRunner {
+public class LedgerApplication implements CommandLineRunner { 
 
     @Autowired
     private UserRepository userRepository;
