@@ -20,7 +20,7 @@ public class SecurityCorsConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOriginPatterns(
+        configuration.setAllowedOrigins(
                 Arrays.asList(allowedOrigins.split(","))
         );
         configuration.setAllowedMethods(
