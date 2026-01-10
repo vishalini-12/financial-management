@@ -3,6 +3,7 @@ package com.financial.ledger.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -12,6 +13,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
@@ -24,10 +26,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            // ✅ Configure CORS with Spring Security 6
+            // ✅ Enable CORS using the dedicated CorsConfigurationSource bean
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-            // ✅ Disable CSRF (stateless REST APIs)
+            // ✅ Disable CSRF for stateless REST APIs
             .csrf(csrf -> csrf.disable())
 
             // ✅ Stateless session policy for JWT
@@ -35,8 +37,11 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
-            // ✅ Authorization rules - permit public access to specified paths
+            // ✅ Authorization rules with explicit OPTIONS permission
             .authorizeHttpRequests(auth -> auth
+                // Explicitly permit OPTIONS for all paths (preflight requests)
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                // Permit public access to specified paths
                 .requestMatchers(
                     "/",                     // React root
                     "/index.html",           // SPA entry
@@ -56,27 +61,23 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // ✅ Allow specific origin only (no wildcard, no preview URLs)
+        // ✅ Allow origins from cors.allowed-origins property (no wildcards, no preview URLs)
         configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
 
-        // ✅ Allow common HTTP methods including OPTIONS for preflight
+        // ✅ Allow HTTP methods including OPTIONS for preflight
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        // ✅ Allow common headers
-        configuration.setAllowedHeaders(Arrays.asList(
-            "Authorization",
-            "Content-Type",
-            "Accept",
-            "Origin",
-            "Access-Control-Request-Method",
-            "Access-Control-Request-Headers"
-        ));
+        // ✅ Allow all headers (*)
+        configuration.setAllowedHeaders(Arrays.asList("*"));
 
-        // ✅ Allow credentials (for JWT cookies if needed)
+        // ✅ Allow credentials for cookies/auth headers
         configuration.setAllowCredentials(true);
 
-        // ✅ Expose common headers to frontend
-        configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin"));
+        // ✅ Expose Authorization header to frontend
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+
+        // ✅ Set preflight cache time (1 hour)
+        configuration.setMaxAge(TimeUnit.HOURS.toSeconds(1));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
