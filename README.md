@@ -8,36 +8,31 @@ A secure Financial Ledger & Reconciliation System built with Spring Boot (backen
 financial-ledger/
 ├── backend/                 # Spring Boot application
 │   ├── src/
-│   ├── Dockerfile
+│   ├── Dockerfile          # Backend Docker configuration
 │   ├── pom.xml
-│   └── Procfile
-├── frontend/                # React application
+│   ├── .env               # Backend environment variables
+│   └── .dockerignore      # Docker build optimization
+├── frontend/               # React application
 │   ├── src/
 │   ├── public/
-│   ├── Dockerfile
 │   ├── package.json
-│   └── node_modules/       # Dependencies
-├── deploy/                  # Deployment configurations
-│   ├── railway/
-│   │   ├── railway.json    # Railway deployment config
-│   │   └── Procfile        # Railway start command
-│   └── vercel/
-│       └── vercel.json     # Vercel deployment config
-├── scripts/                 # Utility scripts
-│   ├── deploy.sh           # Linux/Mac deployment script
-│   ├── deploy.bat          # Windows deployment script
-│   ├── debug_database.js   # Database debugging script
+│   ├── .env              # Frontend environment variables
+│   └── .dockerignore     # Docker build optimization
+├── scripts/               # Utility scripts
+│   ├── deploy.sh          # Linux/Mac deployment script
+│   ├── deploy.bat         # Windows deployment script
+│   ├── debug_database.js  # Database debugging script
 │   └── TestReconciliation.java # Test reconciliation script
-├── docs/                   # Documentation
+├── docs/                  # Documentation
 │   ├── DEPLOYMENT_README.md
 │   └── DATABASE_README.md
-├── resources/              # Project resources
-│   └── data/               # Sample data files
+├── resources/             # Project resources
+│   └── data/              # Sample data files
 │       ├── sample_transactions.csv
 │       └── user_transactions.csv
-├── docker/                 # Docker-related files
-│   └── docker-compose.yml  # Local development setup
-└── README.md               # This file
+├── backend/railway.json   # Railway deployment config
+├── frontend/vercel.json   # Vercel deployment config
+└── README.md              # This file
 ```
 
 ## Quick Start
@@ -50,9 +45,11 @@ financial-ledger/
    cd financial-ledger
    ```
 
-2. **Start with Docker Compose:**
+2. **Backend with Docker:**
    ```bash
-   docker-compose up -d
+   cd backend
+   docker build -t financial-ledger-backend .
+   docker run -p 8080:8080 --env-file .env financial-ledger-backend
    ```
 
 3. **Access the application:**
@@ -97,81 +94,40 @@ The project includes automated scripts for easy building and deployment:
 
 ## Docker Setup
 
-### Prerequisites
-- Docker and Docker Compose installed
-- At least 4GB RAM available
-- Ports 3000, 8080, and 3306 available
+### Backend Docker Configuration
 
-### Quick Start with Docker
+The backend uses a multi-stage Docker build for optimized production deployment:
+
 ```bash
-# Clone the repository
-git clone https://github.com/vishalini-12/financial-management.git
-cd financial-management
-
-# Start all services
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop all services
-docker-compose down
-```
-
-### Individual Services
-```bash
-# Build and run backend only
+# Build the backend image
 cd backend
 docker build -t financial-ledger-backend .
+
+# Run with environment variables
 docker run -p 8080:8080 --env-file .env financial-ledger-backend
 
-# Build and run frontend only
-cd frontend
-docker build -t financial-ledger-frontend .
-docker run -p 3000:80 --env REACT_APP_API_URL=http://localhost:8080 financial-ledger-frontend
-
-# Run MySQL database only
-docker run -d --name mysql-financial -e MYSQL_ROOT_PASSWORD=Vish@1213 -e MYSQL_DATABASE=fin_management -p 3306:3306 mysql:8.0
+# Or run with individual environment variables
+docker run -p 8080:8080 \
+  -e DATABASE_URL="jdbc:mysql://your-db-host:3306/fin_management" \
+  -e DB_USERNAME="your-username" \
+  -e DB_PASSWORD="your-password" \
+  financial-ledger-backend
 ```
 
-### Docker Commands
-```bash
-# View running containers
-docker ps
+### Docker Build Stages
 
-# View all containers
-docker ps -a
+1. **Build Stage**: Uses Maven to compile and package the Spring Boot application
+2. **Runtime Stage**: Uses OpenJDK 17 JRE to run the application with security best practices
 
-# Stop specific container
-docker stop <container_name>
+### Environment Variables
 
-# Remove containers
-docker-compose down --volumes
-
-# Rebuild after code changes
-docker-compose up --build
-```
-
-### Environment Configuration
-The Docker setup includes:
-- **MySQL 8.0** database with persistent storage
-- **Spring Boot** backend with health checks
-- **React** frontend served by nginx
-- **Automatic service discovery** between containers
-
-### Troubleshooting
-```bash
-# Clear all Docker data (use with caution)
-docker system prune -a --volumes
-
-# View container logs
-docker-compose logs backend
-docker-compose logs frontend
-docker-compose logs mysql
-
-# Access MySQL container
-docker exec -it financial-ledger-mysql mysql -u root -p
-```
+The backend Docker container supports the following environment variables:
+- `DATABASE_URL` - MySQL database connection string
+- `DB_USERNAME` - Database username
+- `DB_PASSWORD` - Database password
+- `JWT_SECRET` - JWT signing secret
+- `CORS_ALLOWED_ORIGINS` - Allowed CORS origins
+- `SERVER_PORT` - Server port (default: 8080)
 
 ## Deployment
 
