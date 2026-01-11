@@ -30,6 +30,8 @@ public class SecurityCorsConfig {
         configuration.setAllowCredentials(!Arrays.asList(origins).contains("*"));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
 
+        // Force redeploy
+
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
