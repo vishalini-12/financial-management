@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+// Configure axios with base URL from environment
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+axios.defaults.baseURL = `${apiUrl}`;
+
 // Global axios interceptor to handle authentication errors silently
 axios.interceptors.response.use(
   (response) => {

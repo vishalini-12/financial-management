@@ -7,7 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 // Configure axios defaults
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL =process.env.REACT_APP_API_BASE_URL|| 'http://localhost:8080';
 
 // Add JWT token to all requests automatically
 axios.interceptors.request.use(

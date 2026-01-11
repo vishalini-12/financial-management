@@ -18,10 +18,13 @@ public class SecurityCorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
+        System.out.println("CORS Allowed Origins: " + allowedOrigins);
+
         CorsConfiguration configuration = new CorsConfiguration();
 
         String[] origins = allowedOrigins.split(",");
-        configuration.setAllowedOrigins(Arrays.asList(origins));
+        // Use allowedOriginPatterns for wildcard support
+        configuration.setAllowedOriginPatterns(Arrays.asList(origins));
         configuration.setAllowedMethods(
                 Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")
         );
