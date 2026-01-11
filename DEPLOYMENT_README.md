@@ -41,27 +41,27 @@ Default credentials:
 ## Backend Deployment (Render)
 
 ### 1. Prepare Backend for Render
-The `backend/render.yaml` file is configured for Docker deployment on Render.
+Your `Dockerfile` and `backend/render.yaml` are configured for Docker deployment.
 
 ### 2. Deploy to Render
 1. Go to [Render.com](https://render.com) and create an account
-2. Connect your GitHub repository
-3. Create a new Web Service
+2. Connect your GitHub repository: `https://github.com/vishalini-12/financial-management.git`
+3. Create a new **Web Service**
 4. Select your repository and configure:
    - **Runtime:** Docker
-   - **Dockerfile Path:** `./Dockerfile` (at root level)
-5. The service will automatically build and deploy using your Dockerfile
+   - **Dockerfile Path:** `./Dockerfile` (root level)
+5. The service will automatically build using your multi-stage Dockerfile
 
-### 3. Environment Variables
-Set the following environment variables in Render dashboard:
+### 3. Environment Variables (Copy from env_variables.txt)
+Set these exact environment variables in your Render service:
 
 ```
-DATABASE_URL=jdbc:mysql://[RAILWAY_HOST]:[RAILWAY_PORT]/[DATABASE_NAME]
-DB_USERNAME=[RAILWAY_USERNAME]
-DB_PASSWORD=[RAILWAY_PASSWORD]
+DATABASE_URL=jdbc:mysql://${{RAILWAY_PRIVATE_DOMAIN}}:3306/railway
+DB_USERNAME=root
+DB_PASSWORD=KgSwvxjYBXwRTeiFWzhkwPwWzGEUvdwc
 PORT=10000
 JWT_SECRET=RZwIqkcRGCAJQQKjwnlGpWQJw5+SlgaKG+5GHbcrHHI=
-CORS_ALLOWED_ORIGINS=https://[your-vercel-app].vercel.app
+CORS_ALLOWED_ORIGINS=https://financial-management-five.vercel.app
 JPA_DDL_AUTO=update
 JPA_PLATFORM=org.hibernate.dialect.MySQLDialect
 JPA_SHOW_SQL=false
@@ -77,18 +77,18 @@ SQL_INIT_MODE=always
 
 ### 1. Deploy to Vercel
 1. Go to [Vercel.com](https://vercel.com) and create an account
-2. Connect your GitHub repository
+2. Connect your GitHub repository: `https://github.com/vishalini-12/financial-management.git`
 3. Import the `frontend` folder as a project
 4. Vercel will automatically detect it as a React app
 
-### 2. Environment Variables
-Set in Vercel dashboard:
+### 2. Environment Variables (Copy from env_variables.txt)
+Set this environment variable in your Vercel project dashboard:
 ```
-REACT_APP_API_BASE_URL=https://[your-render-app].onrender.com
+REACT_APP_API_BASE_URL=https://financial-management-nwge.onrender.com
 ```
 
 ### 3. Build Configuration
-The `frontend/vercel.json` is configured for proper routing.
+The `frontend/vercel.json` is configured for proper routing and will be automatically used by Vercel.
 
 ## Local Development
 
