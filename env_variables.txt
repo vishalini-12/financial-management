@@ -6,7 +6,7 @@ DB_USERNAME=root
 DB_PASSWORD=oRJZwEopJZhRPGAURAPBtKcMjovtpuzz
 JWT_SECRET=mySuperSecretKey1234567890123456
 PORT=8080
-CORS_ALLOWED_ORIGINS=https://financial-management-i4ldn2qc9-vishs-projects-b9b54481.vercel.app,http://localhost:3000
+CORS_ALLOWED_ORIGINS= *
 
 # Frontend Environment Variables (Paste REACT_APP_API_URL into Vercel)
 REACT_APP_API_URL=https://financial-management-production-0d74.up.railway.app
