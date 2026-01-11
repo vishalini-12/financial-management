@@ -3,24 +3,65 @@
 ## Overview
 This project consists of a Spring Boot backend and React frontend, designed for financial transaction management and reconciliation.
 
+**Deployment Architecture:**
+- **Frontend:** Vercel
+- **Backend:** Render
+- **Database:** Railway (MySQL)
+
 ## Prerequisites
 - Java 17
 - Maven 3.6+
 - Node.js 16+
-- MySQL database
+- MySQL database (Railway)
 - Git
+- Vercel account
+- Render account
+- Railway account
 
-## Backend Deployment (Railway)
+## Database Setup (Railway)
 
-### 1. Environment Variables
-Set the following environment variables in Railway:
+### 1. Create MySQL Database on Railway
+1. Go to [Railway.app](https://railway.app) and create an account
+2. Create a new project
+3. Add a MySQL database service
+4. Note down the connection details from Railway dashboard:
+   - Host
+   - Port
+   - Database name
+   - Username
+   - Password
+
+### 2. Database Configuration
+The application will automatically create tables and insert default users on startup.
+
+Default credentials:
+- Admin: `admin` / `admin123`
+- Accountant: `accountant` / `accountant123`
+
+## Backend Deployment (Render)
+
+### 1. Prepare Backend for Render
+The `backend/render.yaml` file is configured for Docker deployment on Render.
+
+### 2. Deploy to Render
+1. Go to [Render.com](https://render.com) and create an account
+2. Connect your GitHub repository
+3. Create a new Web Service
+4. Select your repository and configure:
+   - **Runtime:** Docker
+   - **Dockerfile Path:** `./Dockerfile` (at root level)
+5. The service will automatically build and deploy using your Dockerfile
+
+### 3. Environment Variables
+Set the following environment variables in Render dashboard:
 
 ```
-DATABASE_URL=jdbc:mysql://mysql.railway.internal:3306/railway
-DB_USERNAME=root
-DB_PASSWORD=[Your MySQL password]
+DATABASE_URL=jdbc:mysql://[RAILWAY_HOST]:[RAILWAY_PORT]/[DATABASE_NAME]
+DB_USERNAME=[RAILWAY_USERNAME]
+DB_PASSWORD=[RAILWAY_PASSWORD]
+PORT=10000
 JWT_SECRET=RZwIqkcRGCAJQQKjwnlGpWQJw5+SlgaKG+5GHbcrHHI=
-CORS_ALLOWED_ORIGINS=https://your-vercel-app.vercel.app
+CORS_ALLOWED_ORIGINS=https://[your-vercel-app].vercel.app
 JPA_DDL_AUTO=update
 JPA_PLATFORM=org.hibernate.dialect.MySQLDialect
 JPA_SHOW_SQL=false
@@ -32,31 +73,22 @@ MULTIPART_THRESHOLD=2KB
 SQL_INIT_MODE=always
 ```
 
-### 2. CORS Configuration
-Configure CORS in Railway service settings:
-- Go to Railway dashboard > Service > Settings
-- Look for "CORS" or "Allowed Origins"
-- Add: `https://your-vercel-app.vercel.app`
-
-If service-level CORS is not available, the environment variable `CORS_ALLOWED_ORIGINS` should work after redeployment.
-
-### 3. Database Setup
-The application will automatically create tables and insert default users on startup.
-
-Default credentials:
-- Admin: `admin` / `admin123`
-- Accountant: `accountant` / `accountant123`
-
 ## Frontend Deployment (Vercel)
 
-### 1. Environment Variables
+### 1. Deploy to Vercel
+1. Go to [Vercel.com](https://vercel.com) and create an account
+2. Connect your GitHub repository
+3. Import the `frontend` folder as a project
+4. Vercel will automatically detect it as a React app
+
+### 2. Environment Variables
 Set in Vercel dashboard:
 ```
-REACT_APP_API_URL=https://your-railway-app.railway.app
+REACT_APP_API_BASE_URL=https://[your-render-app].onrender.com
 ```
 
-### 2. Build Configuration
-The `vercel.json` is configured for React deployment.
+### 3. Build Configuration
+The `frontend/vercel.json` is configured for proper routing.
 
 ## Local Development
 

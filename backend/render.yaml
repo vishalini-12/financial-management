@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: financial-ledger-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: JPA_DDL_AUTO
+        fromSecret: jpa-ddl-auto
+      - key: JPA_PLATFORM
+        fromSecret: jpa-platform
+      - key: JPA_SHOW_SQL
+        fromSecret: jpa-show-sql
+      - key: JWT_EXPIRATION
+        fromSecret: jwt-expiration
+      - key: MULTIPART_ENABLED
+        fromSecret: multipart-enabled
+      - key: MULTIPART_MAX_FILE_SIZE
+        fromSecret: multipart-max-file-size
+      - key: MULTIPART_MAX_REQUEST_SIZE
+        fromSecret: multipart-max-request-size
+      - key: MULTIPART_THRESHOLD
+        fromSecret: multipart-threshold
+      - key: SQL_INIT_MODE
+        fromSecret: sql-init-mode
+      - key: PORT
+        fromSecret: port

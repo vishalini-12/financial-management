@@ -1,31 +1,44 @@
-# Environment Variables for Deployment
+# Environment Variables Template for Deployment (Vercel + Render + Railway)
+# Fill in the values below with your actual deployment URLs and credentials
 
-# Backend Environment Variables (Paste these into Railway backend service)
-DATABASE_URL=jdbc:mysql://mysql.railway.internal:3306/railway
+# ========== RAILWAY DATABASE (MySQL) ==========
+# Your Railway MySQL database is already configured with these values:
+MYSQLHOST=${{RAILWAY_PRIVATE_DOMAIN}}
+MYSQLPORT=3306
+MYSQL_DATABASE=railway
+MYSQLUSER=root
+MYSQL_ROOT_PASSWORD=KgSwvxjYBXwRTeiFWzhkwPwWzGEUvdwc
+
+# Direct connection URL: mysql://root:KgSwvxjYBXwRTeiFWzhkwPwWzGEUvdwc@${{RAILWAY_PRIVATE_DOMAIN}}:3306/railway
+
+
+
+
+# ========== BACKEND ENVIRONMENT VARIABLES (Set in Render) ==========
+DATABASE_URL=jdbc:mysql://${{RAILWAY_PRIVATE_DOMAIN}}:3306/railway
 DB_USERNAME=root
-DB_PASSWORD=oRJZwEopJZhRPGAURAPBtKcMjovtpuzz
-JWT_SECRET=mySuperSecretKey1234567890123456
-PORT=8080
-CORS_ALLOWED_ORIGINS=*
+DB_PASSWORD=KgSwvxjYBXwRTeiFWzhkwPwWzGEUvdwc
+PORT=10000
+JWT_SECRET=RZwIqkcRGCAJQQKjwnlGpWQJw5+SlgaKG+5GHbcrHHI=
+CORS_ALLOWED_ORIGINS=https://financial-management-five.vercel.app
+JPA_DDL_AUTO=update
+JPA_PLATFORM=org.hibernate.dialect.MySQLDialect
+JPA_SHOW_SQL=false
+JWT_EXPIRATION=86400000
+MULTIPART_ENABLED=true
+MULTIPART_MAX_FILE_SIZE=10MB
+MULTIPART_MAX_REQUEST_SIZE=10MB
+MULTIPART_THRESHOLD=2KB
+SQL_INIT_MODE=always
 
-# Frontend Environment Variables (Paste REACT_APP_API_URL into Vercel)
-e
 
-# Vercel URL (automatically provided by Vercel)
-VERCEL_URL=https://financial-management-five.vercel.app
 
-#versal deployment changing url
-https://financial-management-jrshnk9c5-vishs-projects-b9b54481.vercel.app
+# ========== FRONTEND ENVIRONMENT VARIABLES (Set in Vercel) ==========
+REACT_APP_API_BASE_URL=https://financial-management-nwge.onrender.com
 
-# MySQL Railway Details (for reference)
-MYSQL_DATABASE="railway"
-MYSQL_PUBLIC_URL="mysql://${{MYSQLUSER}}:${{MYSQL_ROOT_PASSWORD}}@${{RAILWAY_TCP_PROXY_DOMAIN}}:${{RAILWAY_TCP_PROXY_PORT}}/${{MYSQL_DATABASE}}"
-MYSQL_ROOT_PASSWORD="oRJZwEopJZhRPGAURAPBtKcMjovtpuzz"
-MYSQL_URL="mysql://${{MYSQLUSER}}:${{MYSQL_ROOT_PASSWORD}}@${{RAILWAY_PRIVATE_DOMAIN}}:3306/${{MYSQL_DATABASE}}"
-MYSQLDATABASE="${{MYSQL_DATABASE}}"
-MYSQLHOST="${{RAILWAY_PRIVATE_DOMAIN}}"
-MYSQLPASSWORD="${{MYSQL_ROOT_PASSWORD}}"
-MYSQLPORT="3306"
-MYSQLUSER="root"
 
-# Direct MySQL URL: mysql://root:oRJZwEopJZhRPGAURAPBtKcMjovtpuzz@crossover.proxy.rlwy.net:41647/railway
+
+
+# ========== DEPLOYMENT URLs ==========
+VERCEL_FRONTEND_URL=https://financial-management-five.vercel.app
+RENDER_BACKEND_URL=https://financial-management-nwge.onrender.com
