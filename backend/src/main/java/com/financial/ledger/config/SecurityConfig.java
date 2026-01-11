@@ -23,7 +23,7 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
-            // .cors(cors -> cors.configurationSource(corsConfigurationSource)) // Temporarily disabled for deployment
+            .cors(cors -> cors.configurationSource(corsConfigurationSource)) // Temporarily disabled for deployment
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
