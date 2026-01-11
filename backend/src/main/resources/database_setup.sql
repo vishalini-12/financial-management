@@ -72,11 +72,11 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 -- Insert default admin user (password: admin123 - hashed)
 -- Note: In production, use proper password hashing
 INSERT IGNORE INTO users (username, password, email, role, created_at) VALUES
-('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lbdxp7O5bLp2Q6PiO', 'admin@financialledger.com', 'ADMIN', NOW());
+('admin', '$2a$13$DKh24nW.SdFh5QIEOPJRvOlREpsOrDXyKpQlUNhUTlPr2ZicxHAxe', 'admin@financialledger.com', 'ADMIN', NOW());
 
 -- Insert sample accountant user (password: accountant123 - hashed)
 INSERT IGNORE INTO users (username, password, email, role, created_at) VALUES
-('accountant', '$2a$10$8K3.5yGJ8Vz6Q1X8wg9OeJ8zL8n8X9nL8n8X9nL8n8X9nL8n8X9n', 'accountant@financialledger.com', 'ACCOUNTANT', NOW());
+('accountant', '$2a$13$RIfXt.vWaVpDgtlqAwyRPuiGTqZds.SDa9..4PiFBzo1Yk4AUjxAm', 'accountant@financialledger.com', 'ACCOUNTANT', NOW());
 
 -- Insert sample transactions for testing
 INSERT IGNORE INTO transactions (date, description, amount, type, status, category, client_name, client_username, user_id, created_at) VALUES
