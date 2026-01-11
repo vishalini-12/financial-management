@@ -1,9 +1,12 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "build",
-  "devCommand": "npm start",
-  "installCommand": "npm install",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
