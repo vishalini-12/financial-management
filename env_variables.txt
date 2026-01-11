@@ -1,28 +1,31 @@
 # Environment Variables for Deployment
 
 # Backend Environment Variables (Paste these into Railway backend service)
-DATABASE_URL="jdbc:mysql://mysql.railway.internal:3306/railway"
-DB_USERNAME="root"
-DB_PASSWORD="oRJZwEopJZhRPGAURAPBtKcMjovtpuzz"
-JWT_SECRET="mySuperSecretKey1234567890123456"
-PORT="8080"
-CORS_ALLOWED_ORIGINS="https://*.vercel.app"
+DATABASE_URL=jdbc:mysql://mysql.railway.internal:3306/railway
+DB_USERNAME=root
+DB_PASSWORD=oRJZwEopJZhRPGAURAPBtKcMjovtpuzz
+JWT_SECRET=mySuperSecretKey1234567890123456
+PORT=8080
+CORS_ALLOWED_ORIGINS=*
 
 # Frontend Environment Variables (Paste REACT_APP_API_URL into Vercel)
-REACT_APP_API_URL=https://financial-management-production-0d74.up.railway.app
+REACT_APP_API_BASE_URL=https://financial-management-production-0d74.up.railway.app
 
 # Vercel URL (automatically provided by Vercel)
-VERCEL_URL=https://financial-management-five.vercel.app/
+VERCEL_URL=https://financial-management-five.vercel.app
+
+#versal deployment changing url
+https://financial-management-jrshnk9c5-vishs-projects-b9b54481.vercel.app
 
 # MySQL Railway Details (for reference)
-MYSQL_DATABASE=railway
-MYSQL_PUBLIC_URL=mysql://${MYSQLUSER}:${MYSQL_ROOT_PASSWORD}@${RAILWAY_TCP_PROXY_DOMAIN}:${RAILWAY_TCP_PROXY_PORT}/${MYSQL_DATABASE}
-MYSQL_ROOT_PASSWORD=oRJZwEopJZhRPGAURAPBtKcMjovtpuzz
-MYSQL_URL=mysql://${MYSQLUSER}:${MYSQL_ROOT_PASSWORD}@${RAILWAY_PRIVATE_DOMAIN}:3306/${MYSQL_DATABASE}
-MYSQLDATABASE=${MYSQL_DATABASE}
-MYSQLHOST=${RAILWAY_PRIVATE_DOMAIN}
-MYSQLPASSWORD=${MYSQL_ROOT_PASSWORD}
-MYSQLPORT=3306
-MYSQLUSER=root
+MYSQL_DATABASE="railway"
+MYSQL_PUBLIC_URL="mysql://${{MYSQLUSER}}:${{MYSQL_ROOT_PASSWORD}}@${{RAILWAY_TCP_PROXY_DOMAIN}}:${{RAILWAY_TCP_PROXY_PORT}}/${{MYSQL_DATABASE}}"
+MYSQL_ROOT_PASSWORD="oRJZwEopJZhRPGAURAPBtKcMjovtpuzz"
+MYSQL_URL="mysql://${{MYSQLUSER}}:${{MYSQL_ROOT_PASSWORD}}@${{RAILWAY_PRIVATE_DOMAIN}}:3306/${{MYSQL_DATABASE}}"
+MYSQLDATABASE="${{MYSQL_DATABASE}}"
+MYSQLHOST="${{RAILWAY_PRIVATE_DOMAIN}}"
+MYSQLPASSWORD="${{MYSQL_ROOT_PASSWORD}}"
+MYSQLPORT="3306"
+MYSQLUSER="root"
 
 # Direct MySQL URL: mysql://root:oRJZwEopJZhRPGAURAPBtKcMjovtpuzz@crossover.proxy.rlwy.net:41647/railway
