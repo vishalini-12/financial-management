@@ -26,6 +26,7 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource)) // Temporarily disabled for deployment
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()                   
                 .requestMatchers(
                     "/api/auth/**",
                     "/manifest.json",
