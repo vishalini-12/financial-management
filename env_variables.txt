@@ -9,7 +9,7 @@ PORT=8080
 CORS_ALLOWED_ORIGINS=*
 
 # Frontend Environment Variables (Paste REACT_APP_API_URL into Vercel)
-REACT_APP_API_BASE_URL=https://financial-management-production-0d74.up.railway.app
+e
 
 # Vercel URL (automatically provided by Vercel)
 VERCEL_URL=https://financial-management-five.vercel.app
