@@ -3,7 +3,6 @@
   "outputDirectory": "build",
   "devCommand": "npm start",
   "installCommand": "npm install",
-  "framework": "react",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
