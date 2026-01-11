@@ -18,26 +18,31 @@ public class SecurityCorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
-        System.out.println("CORS Allowed Origins: " + allowedOrigins);
+        // Remove wrapping quotes if present
+        String sanitized = allowedOrigins.replace("\"", "").trim();
+
+        String[] origins = sanitized.split(",");
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        String[] origins = allowedOrigins.split(",");
-        // Use allowedOriginPatterns for wildcard support
         configuration.setAllowedOriginPatterns(Arrays.asList(origins));
         configuration.setAllowedMethods(
                 Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")
         );
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        // Allow credentials only if not using wildcard
-        configuration.setAllowCredentials(!Arrays.asList(origins).contains("*"));
-        configuration.setExposedHeaders(Arrays.asList("Authorization"));
-
-        // Force redeploy
+        configuration.setAllowedHeaders(
+                Arrays.asList("Authorization", "Content-Type")
+        );
+        configuration.setExposedHeaders(
+                Arrays.asList("Authorization")
+        );
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
+        // Debug log (optional)
+        System.out.println("CORS Allowed Origin Patterns: " + Arrays.toString(origins));
 
         return source;
     }
