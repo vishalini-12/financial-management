@@ -4,39 +4,39 @@ import axios from 'axios';
 const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080';
 axios.defaults.baseURL = `${apiUrl}`;
 
-// Global axios interceptor to handle authentication errors silently
+// Global axios interceptor to handle authentication errors - LESS AGGRESSIVE
 axios.interceptors.response.use(
   (response) => {
     // Return response if successful
     return response;
   },
   (error) => {
-    // Handle 403 Forbidden errors (authentication/authorization failures)
-    if (error.response?.status === 403) {
-      console.log('Authentication failed, clearing session and redirecting to login');
+    // Only handle 401 Unauthorized errors (token expired/invalid)
+    // 403 Forbidden errors are handled by individual components
+    if (error.response?.status === 401) {
+      console.log('Token expired or invalid, clearing session and redirecting to login');
 
       // Clear invalid authentication data
       localStorage.removeItem('token');
       localStorage.removeItem('role');
       localStorage.removeItem('username');
 
-      // Redirect to login page silently
+      // Redirect to login page
       if (window.location.pathname !== '/login') {
         window.location.href = '/login';
       }
 
       // Return a resolved promise to prevent the error from propagating
-      // This prevents console errors from showing up
       return Promise.resolve({
         data: null,
-        status: 403,
-        statusText: 'Forbidden',
+        status: 401,
+        statusText: 'Unauthorized',
         headers: {},
         config: error.config,
       });
     }
 
-    // For other errors, reject normally
+    // For 403 and other errors, reject normally - let components handle them
     return Promise.reject(error);
   }
 );
