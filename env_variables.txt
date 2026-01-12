@@ -20,7 +20,7 @@ DB_USERNAME=root
 DB_PASSWORD=KgSwvxjYBXwRTeiFWzhkwPwWzGEUvdwc
 PORT=10000
 JWT_SECRET=RZwIqkcRGCAJQQKjwnlGpWQJw5+SlgaKG+5GHbcrHHI=
-CORS_ALLOWED_ORIGINS=https://financial-management-qd2nk58dg-vishs-projects-b9b54481.vercel.app
+CORS_ALLOWED_ORIGINS=https://financial-management-6rxgbg5ff-vishs-projects-b9b54481.vercel.app
 JPA_DDL_AUTO=update
 JPA_PLATFORM=org.hibernate.dialect.MySQLDialect
 JPA_SHOW_SQL=false
@@ -40,5 +40,5 @@ REACT_APP_API_BASE_URL=https://financial-management-nwge.onrender.com
 
 
 # ========== DEPLOYMENT URLs ==========
-VERCEL_FRONTEND_URL=https://financial-management-qd2nk58dg-vishs-projects-b9b54481.vercel.app
+VERCEL_FRONTEND_URL=https://financial-management-6rxgbg5ff-vishs-projects-b9b54481.vercel.app
 RENDER_BACKEND_URL=https://financial-management-nwge.onrender.com
