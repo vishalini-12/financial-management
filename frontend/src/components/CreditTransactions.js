@@ -9,7 +9,7 @@ const CreditTransactions = ({ user }) => {
     const fetchCreditTransactions = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:8082/api/transactions', {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/transactions`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         // Filter only CREDIT transactions

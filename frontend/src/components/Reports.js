@@ -50,7 +50,7 @@ const Reports = ({ user }) => {
     try {
       setLoadingClients(true);
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/api/transactions/clients', {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/transactions/clients`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAvailableClients(response.data || []);
@@ -108,7 +108,7 @@ const Reports = ({ user }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/api/transactions/reconciliation', {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/transactions/reconciliation`, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
           fromDate: filters.fromDate,
@@ -167,16 +167,16 @@ const Reports = ({ user }) => {
       let filename;
       switch (format) {
         case 'pdf':
-          url = `http://localhost:8080/api/transactions/reconciliation/export/pdf?${params.toString()}`;
+          url = `${process.env.REACT_APP_API_BASE_URL}/api/transactions/reconciliation/export/pdf?${params.toString()}`;
           filename = `reconciliation_${filters.clientName || 'all_clients'}_${new Date().getTime()}.pdf`;
           break;
         case 'excel':
-          url = `http://localhost:8080/api/transactions/reconciliation/export/excel?${params.toString()}`;
+          url = `${process.env.REACT_APP_API_BASE_URL}/api/transactions/reconciliation/export/excel?${params.toString()}`;
           filename = `reconciliation_${filters.clientName || 'all_clients'}_${new Date().getTime()}.xls`;
           break;
         case 'csv':
         default:
-          url = `http://localhost:8080/api/transactions/reconciliation/export/csv?${params.toString()}`;
+          url = `${process.env.REACT_APP_API_BASE_URL}/api/transactions/reconciliation/export/csv?${params.toString()}`;
           filename = `reconciliation_${filters.clientName || 'all_clients'}_${new Date().getTime()}.csv`;
           break;
       }

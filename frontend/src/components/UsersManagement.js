@@ -32,7 +32,7 @@ const UsersManagement = ({ user }) => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/api/admin/users', {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(response.data || []);
@@ -98,7 +98,7 @@ const UsersManagement = ({ user }) => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:8080/api/users', newUser, {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/users`, newUser, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
