@@ -18,6 +18,12 @@ const Reconciliation = ({ user }) => {
     if (user && user.role === 'USER') {
       setError('Access denied. Only ADMIN and ACCOUNTANT can access reconciliation.');
     }
+
+    // 🔍 DEBUG: Log environment variable and API URL
+    console.log('🔍 RECONCILIATION COMPONENT DEBUG:');
+    console.log('API_BASE_URL:', process.env.REACT_APP_API_BASE_URL);
+    console.log('Clients API URL:', `${process.env.REACT_APP_API_BASE_URL}/api/transactions/clients`);
+    console.log('Is API_BASE_URL defined:', !!process.env.REACT_APP_API_BASE_URL);
   }, [user]);
 
   const handleInputChange = (e) => {
