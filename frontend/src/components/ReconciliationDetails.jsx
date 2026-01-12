@@ -23,7 +23,7 @@ const ReconciliationDetails = ({ user }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:8080/api/reconciliation/${id}`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/reconciliation/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

@@ -72,7 +72,7 @@ const Reconciliation = ({ user }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:8080/api/transactions/reconciliation/calculate', {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/transactions/reconciliation/calculate`, {
         fromDate: formData.fromDate,
         toDate: formData.toDate,
         openingBalance: parseFloat(formData.openingBalance),
