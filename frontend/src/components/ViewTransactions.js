@@ -27,7 +27,7 @@ const ViewTransactions = ({ user }) => {
   const fetchClients = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/api/transactions/clients', {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/transactions/clients`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setClients(response.data);
@@ -44,7 +44,7 @@ const ViewTransactions = ({ user }) => {
       console.log('User:', user);
       console.log('Token exists:', !!token);
 
-      const response = await axios.get('http://localhost:8080/api/transactions', {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/transactions`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
