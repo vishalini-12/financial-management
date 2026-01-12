@@ -2,6 +2,9 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "framework": "create-react-app",
+  "env": {
+    "REACT_APP_API_BASE_URL": "https://financial-management-nwge.onrender.com"
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
