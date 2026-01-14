@@ -27,13 +27,20 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()                   
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(
                     "/api/auth/**",
                     "/manifest.json",
                     "/favicon.ico",
-                    "/h2-console/**"  // Allow H2 console access
+                    "/actuator/health",
+                    "/actuator/info"
                 ).permitAll()
+                // Role-based access for API endpoints
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/transactions/**").hasAnyRole("ADMIN", "ACCOUNTANT")
+                .requestMatchers("/api/reconciliation/**").hasAnyRole("ADMIN", "ACCOUNTANT")
+                .requestMatchers("/api/audit-logs/**").hasAnyRole("ADMIN", "ACCOUNTANT")
+                .requestMatchers("/api/reports/**").hasAnyRole("ADMIN", "ACCOUNTANT")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
