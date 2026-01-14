@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api, { API_BASE_URL, API_ENDPOINTS } from '../utils/api';
 
 const ClientReconciliation = ({ user }) => {
   const { id } = useParams();
@@ -49,15 +49,23 @@ const ClientReconciliation = ({ user }) => {
         toDate: toDateParam
       });
 
-      const response = await axios.get(`http://localhost:8080/api/transactions/reconciliation`, {
+      // 🔍 DEBUG: Log API call
+      console.log('🔍 CLIENT RECONCILIATION - Fetching details:', {
+        client: clientParam,
+        openingBalance: openingBalanceParam,
+        bankBalance: bankBalanceParam,
+        fromDate: fromDateParam,
+        toDate: toDateParam
+      });
+
+      const response = await api.get(API_ENDPOINTS.TRANSACTION_RECONCILIATION, {
         params: {
           client: clientParam,
           openingBalance: openingBalanceParam,
           bankBalance: bankBalanceParam,
           fromDate: fromDateParam,
           toDate: toDateParam
-        },
-        headers: { Authorization: `Bearer ${token}` }
+        }
       });
 
       console.log('Reconciliation API response:', response.data);
@@ -119,35 +127,40 @@ const ClientReconciliation = ({ user }) => {
 
   const handleDownload = async (format) => {
     try {
-      const token = localStorage.getItem('token');
-
       // Use the same parameters that were used to fetch the reconciliation
       const clientParam = id === '1' ? 'sandhiya' : id;
       const openingBalanceParam = 75000;
       const bankBalanceParam = 107000;
 
-      let url;
+      // 🔍 DEBUG: Log download request
+      console.log('🔍 CLIENT RECONCILIATION - Downloading report:', {
+        format,
+        client: clientParam,
+        openingBalance: openingBalanceParam,
+        bankBalance: bankBalanceParam
+      });
+
+      let endpoint;
       switch (format) {
         case 'pdf':
-          url = 'http://localhost:8080/api/transactions/reconciliation/export/pdf';
+          endpoint = API_ENDPOINTS.EXPORT_PDF;
           break;
         case 'csv':
-          url = 'http://localhost:8080/api/transactions/reconciliation/export/csv';
+          endpoint = API_ENDPOINTS.EXPORT_CSV;
           break;
         case 'excel':
-          url = 'http://localhost:8080/api/transactions/reconciliation/export/excel';
+          endpoint = API_ENDPOINTS.EXPORT_EXCEL;
           break;
         default:
           throw new Error('Invalid format');
       }
 
-      const response = await axios.get(url, {
+      const response = await api.get(endpoint, {
         params: {
           client: clientParam,
           openingBalance: openingBalanceParam,
           bankBalance: bankBalanceParam
         },
-        headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob' // Important for file downloads
       });
 

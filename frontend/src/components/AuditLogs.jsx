@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import axios from 'axios';
+import api, { API_ENDPOINTS } from '../utils/api';
 import './AuditLogs.css';
 
 const AuditLogs = () => {
@@ -25,10 +25,10 @@ const AuditLogs = () => {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/api/audit-logs', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // 🔍 DEBUG: Log API call
+      console.log('🔍 AUDIT LOGS - Fetching audit logs from:', API_ENDPOINTS.AUDIT_LOGS);
+
+      const response = await api.get(API_ENDPOINTS.AUDIT_LOGS);
       setAuditLogs(response.data || []);
     } catch (err) {
       console.error('Error fetching audit logs:', err);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api, { API_BASE_URL, API_ENDPOINTS } from '../utils/api';
 
 const BankReconciliation = ({ user }) => {
   const navigate = useNavigate();
@@ -26,10 +26,12 @@ const BankReconciliation = ({ user }) => {
 
   const fetchClients = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/api/transactions/clients', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // 🔍 DEBUG: Log API configuration
+      console.log('🔍 BANK RECONCILIATION - API Config:');
+      console.log('API_BASE_URL:', API_BASE_URL);
+      console.log('Clients endpoint:', API_ENDPOINTS.TRANSACTION_CLIENTS);
+
+      const response = await api.get(API_ENDPOINTS.TRANSACTION_CLIENTS);
       setClients(response.data || []);
     } catch (err) {
       console.error('Error fetching clients:', err);
@@ -169,17 +171,28 @@ const BankReconciliation = ({ user }) => {
     setApiError('');
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:8080/api/reconciliation/calculate', {
+      // 🔍 DEBUG: Log API call
+      console.log('🔍 BANK RECONCILIATION - Submitting reconciliation:');
+      console.log('Endpoint:', API_ENDPOINTS.RECONCILIATION_CALCULATE);
+      console.log('Request data:', {
         clientName: formData.clientName,
         bankName: formData.bankName,
         fromDate: formData.fromDate,
         toDate: formData.toDate,
         openingBalance: parseFloat(formData.openingBalance),
         bankBalance: parseFloat(formData.bankBalance)
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
       });
+
+      const response = await api.post(API_ENDPOINTS.RECONCILIATION_CALCULATE, {
+        clientName: formData.clientName,
+        bankName: formData.bankName,
+        fromDate: formData.fromDate,
+        toDate: formData.toDate,
+        openingBalance: parseFloat(formData.openingBalance),
+        bankBalance: parseFloat(formData.bankBalance)
+      });
+
+      console.log('🔍 BANK RECONCILIATION - Response received:', response.data);
 
       // Success - redirect to client reconciliation page
       const reconciliationId = response.data.reconciliationId;
