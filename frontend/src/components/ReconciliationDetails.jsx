@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api, { API_ENDPOINTS } from '../utils/api';
 
 const ReconciliationDetails = ({ user }) => {
   const { id } = useParams();
@@ -22,11 +22,12 @@ const ReconciliationDetails = ({ user }) => {
   const fetchReconciliationDetails = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/reconciliation/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // 🔍 DEBUG: Log API call
+      console.log('🔍 RECONCILIATION DETAILS - Fetching details for ID:', id);
 
+      const response = await api.get(`${API_ENDPOINTS.RECONCILIATION}/${id}`);
+
+      console.log('🔍 RECONCILIATION DETAILS - Response received:', response.data);
       setReconciliation(response.data);
       setError('');
     } catch (err) {

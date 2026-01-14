@@ -171,7 +171,16 @@ const BankReconciliation = ({ user }) => {
     setApiError('');
 
     try {
-      // 🔍 DEBUG: Log API call
+      // 🔍 DEBUG: Log API call and authentication details
+      const token = localStorage.getItem('token');
+      const role = user?.role;
+
+      console.log('🔍 BANK RECONCILIATION - Authentication Debug:');
+      console.log('Token exists:', !!token);
+      console.log('Token length:', token?.length || 0);
+      console.log('User role:', role);
+      console.log('User object:', user);
+
       console.log('🔍 BANK RECONCILIATION - Submitting reconciliation:');
       console.log('Endpoint:', API_ENDPOINTS.RECONCILIATION_CALCULATE);
       console.log('Request data:', {

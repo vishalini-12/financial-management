@@ -100,7 +100,7 @@ export const API_ENDPOINTS = {
 
   // Reconciliation
   RECONCILIATION: '/api/reconciliation',
-  RECONCILIATION_CALCULATE: '/api/transactions/reconciliation/calculate',
+  RECONCILIATION_CALCULATE: '/api/reconciliation/calculate',
 
   // Reports
   REPORTS: '/api/reports',

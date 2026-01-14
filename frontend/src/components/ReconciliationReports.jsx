@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import axios from 'axios';
+import api, { API_ENDPOINTS } from '../utils/api';
 import './ReconciliationReports.css';
 
 const ReconciliationReports = () => {
@@ -25,10 +25,11 @@ const ReconciliationReports = () => {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/reconciliation`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // 🔍 DEBUG: Log API call
+      console.log('🔍 RECONCILIATION REPORTS - Fetching reports from:', API_ENDPOINTS.RECONCILIATION_REPORTS);
+
+      const response = await api.get(API_ENDPOINTS.RECONCILIATION_REPORTS);
+      console.log('🔍 RECONCILIATION REPORTS - Response received:', response.data);
       setReconciliations(response.data || []);
     } catch (err) {
       console.error('Error fetching reconciliations:', err);
