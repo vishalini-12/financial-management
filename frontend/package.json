@@ -15,10 +15,14 @@
     "web-vitals": "^3.0.0"
   },
   "overrides": {
-    "rollup-plugin-terser": "npm:@rollup/plugin-terser@^0.4.4",
-    "sourcemap-codec": "npm:@jridgewell/sourcemap-codec@^1.4.15"
+    "rollup-plugin-terser": "@rollup/plugin-terser",
+    "sourcemap-codec": "@jridgewell/sourcemap-codec",
+    "stable": "latest",
+    "rimraf": "latest",
+    "q": "latest",
+    "inflight": "latest",
+    "glob": "latest"
   },
-
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
