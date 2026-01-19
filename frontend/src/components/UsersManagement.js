@@ -7,10 +7,6 @@ const UsersManagement = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('ALL');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [sortField, setSortField] = useState('username');
-  const [sortDirection, setSortDirection] = useState('asc');
 
   // Add User Modal State
   const [showAddUserModal, setShowAddUserModal] = useState(false);
@@ -27,7 +23,7 @@ const UsersManagement = ({ user }) => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   const fetchUsers = async () => {
     try {
@@ -167,29 +163,9 @@ const UsersManagement = ({ user }) => {
     return matchesSearch && matchesRole;
   });
 
-  // Sort users
-  const sortedUsers = [...filteredUsers].sort((a, b) => {
-    let aValue = a[sortField];
-    let bValue = b[sortField];
-
-    if (sortField === 'createdAt') {
-      aValue = new Date(aValue || 0);
-      bValue = new Date(bValue || 0);
-    } else {
-      aValue = (aValue || '').toString().toLowerCase();
-      bValue = (bValue || '').toString().toLowerCase();
-    }
-
-    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
-    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
-    return 0;
-  });
-
-  // Pagination
-  const totalPages = Math.ceil(sortedUsers.length / itemsPerPage);
-  const paginatedUsers = sortedUsers.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  // Simple sorting by username for now
+  const sortedUsers = [...filteredUsers].sort((a, b) =>
+    a.username.toLowerCase().localeCompare(b.username.toLowerCase())
   );
 
   if (loading) {

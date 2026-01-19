@@ -5,7 +5,7 @@ const ViewTransactions = ({ user }) => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [clients, setClients] = useState([]);
+  // const [clients, setClients] = useState([]); // Not used in current implementation
 
   // Filters
   const [typeFilter, setTypeFilter] = useState('All');
@@ -16,25 +16,25 @@ const ViewTransactions = ({ user }) => {
 
   useEffect(() => {
     if (!user) return; // Don't fetch if not authenticated
-    fetchClients();
+    // fetchClients(); // Not needed in current implementation
     fetchTransactions();
-  }, [user]);
+  }, [user, fetchTransactions]);
   useEffect(() => {
     // Re-fetch when filters change
     fetchTransactions();
-  }, [typeFilter, clientFilter, statusFilter, dateFromFilter, dateToFilter]);
+  }, [typeFilter, clientFilter, statusFilter, dateFromFilter, dateToFilter, fetchTransactions]);
 
-  const fetchClients = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/transactions/clients`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setClients(response.data);
-    } catch (err) {
-      console.error('Error fetching clients:', err);
-    }
-  };
+  // const fetchClients = async () => {
+  //   try {
+  //     const token = localStorage.getItem('token');
+  //     const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/transactions/clients`, {
+  //       headers: { Authorization: `Bearer ${token}` }
+  //     });
+  //     setClients(response.data);
+  //   } catch (err) {
+  //     console.error('Error fetching clients:', err);
+  //   }
+  // };
 
   const fetchTransactions = async () => {
     try {
